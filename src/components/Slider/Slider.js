@@ -31,6 +31,7 @@ export default function Slider() {
       },
     },
   ]);
+
   return (
     <div className="cutomSwiper">
       <div className="customSwiper__overlay"></div>
