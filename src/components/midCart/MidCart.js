@@ -27,15 +27,6 @@ export default function MidCart({ products }) {
               <div className="midCart__contaier d-flex flex-column justify-content-between align-items-center">
                 <img src={product.img} alt="Today's offer product" />
 
-                {/* {product.discount && lang == "ar" ? (
-                  <p className="midCart__swipSlide-pAr" dir="rtl">
-                    خصم يصل إلي {product.discount} جنية او أقل
-                  </p>
-                ) : (
-                  <p className="midCart__swipSlide-pAr" dir="rtl">
-                    خصم يصل إلي {product.discount_perc} %
-                  </p>
-                )} */}
                 {product.discount && lang == "ar" ? (
                   <p className="midCart__swipSlide-pAr">
                     خصم يصل إلي {product.discount} جنية او أقل
