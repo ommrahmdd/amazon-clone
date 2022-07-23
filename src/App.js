@@ -8,6 +8,8 @@ import { useState } from "react";
 import Home from "./pages/Home/Home";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import Electronics from "./components/electronics/Electronics";
+import ProductDetails from "./components/productDetails/productDetails";
 function App() {
   let dispatch = useDispatch();
   let [lang, setLang] = useState("en");
@@ -23,6 +25,9 @@ function App() {
         <Navbar />
         <div className="container-fluid  appContainer">
           <Switch>
+           
+            <Route path="/electronics" exact component={Electronics}  />
+            <Route path="/productDetails/:id" component={ProductDetails} />
             <Route path="/" exect component={Home} />
           </Switch>
         </div>
