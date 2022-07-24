@@ -167,7 +167,7 @@ export default function Header() {
             </p>
             <div className="header__cart-box position-relative">
               <p className="header__cart-box-number">{cart.length}</p>
-              <i class="fa-solid fa-cart-shopping"></i>
+              <i className="fa-solid fa-cart-shopping"></i>
             </div>
           </div>
         </Link>

@@ -34,8 +34,8 @@ function App() {
             <Switch>
               <Route path="/electronics" component={Electronics} exact />
               <Route path="/electronics/:id" component={ProductDetails} exact />
-              <Route path="/cart" component={Cart} />
-              <Route path="/purchase" component={Purchase} />
+              <Route path="/cart" exact component={Cart} />
+              <Route path="/payment/:id" exact component={Purchase} />
               <Route path="/" component={Home} exect />
             </Switch>
           </div>

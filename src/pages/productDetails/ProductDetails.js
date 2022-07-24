@@ -1,11 +1,12 @@
 import React, { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 
 import addToCart_action from "./../../store/actions/cart";
 import "./productDetails.css";
 export default function ProductDetails() {
   let params = useParams();
+  let history = useHistory();
   let lang = useSelector((state) => state.lang.lang);
   let activeImg = useRef();
   let cart = useSelector((state) => state.cart);
@@ -115,6 +116,10 @@ export default function ProductDetails() {
     //   })
     // );
     // console.log(cart);
+  };
+  let handleBuy = () => {
+    // history.replace(`./payment/${product.en.id}?quantity=${quantity}`);
+    window.location.replace(`/payment/${product.en.id}?quantity=${quantity}`);
   };
   function currencyFormat(num) {
     return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -272,7 +277,10 @@ export default function ProductDetails() {
                       Add To Cart
                     </button>
                     {error && <small className="small__Error">{error}</small>}
-                    <button className="w-100 customBtn primaryBtn">
+                    <button
+                      className="w-100 customBtn primaryBtn"
+                      onClick={() => handleBuy()}
+                    >
                       Buy Now
                     </button>
                   </div>
