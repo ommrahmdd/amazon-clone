@@ -162,7 +162,9 @@ export default function Header() {
         </select>
         <Link to="/cart" className="cart__link">
           <div className="header__cart mx-4 d-flex align-items-center">
-            <p className="m-0">{lang == "en" ? "Cart" : "العربــة"}</p>
+            <p className="m-0 header__cart-cart">
+              {lang == "en" ? "Cart" : "العربــة"}
+            </p>
             <div className="header__cart-box position-relative">
               <p className="header__cart-box-number">{cart.length}</p>
               <i class="fa-solid fa-cart-shopping"></i>

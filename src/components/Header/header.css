@@ -89,7 +89,9 @@
   color: var(--whiteColor);
   font-weight: bold;
 }
-
+.header__cart-cart {
+  font-size: 1.6rem;
+}
 .header__cart-box i {
   font-size: 2.5rem;
 }

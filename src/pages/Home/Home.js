@@ -3,7 +3,9 @@ import { useState } from "react";
 import BigCart from "../../components/bigCart/BigCart";
 import Slider from "../../components/Slider/Slider";
 import MidCart from "../../components/midCart/MidCart";
+import Footer from "./../../components/Footer/Footer";
 import "./home.css";
+import SmallCart from "../../components/smallCart/SmallCart";
 export default function Home() {
   let [products, setProducts] = useState([
     {
@@ -76,6 +78,38 @@ export default function Home() {
       image: require("../../assets/home/mobile_acc.jpg"),
       path: "/mobileAccessories",
     },
+    {
+      title: {
+        ar: "أساسيات المنزل",
+        en: "Home Essentional",
+      },
+      image: require("../../assets/home/home.jpg"),
+      path: "/home",
+    },
+    {
+      title: {
+        ar: "نظارات",
+        en: "New Arrival | Eyewear",
+      },
+      image: require("../../assets/home/glasses.jpg"),
+      path: "/glasses",
+    },
+    {
+      title: {
+        ar: "العدد والادوات",
+        en: "Tools & Home Improvement",
+      },
+      image: require("../../assets/home/tools.jpg"),
+      path: "/tools",
+    },
+    {
+      title: {
+        ar: "العاب الاطفال",
+        en: "Baby's toys",
+      },
+      image: require("../../assets/home/toys.jpg"),
+      path: "/toys",
+    },
   ]);
   let [offersToday, setOffersToday] = useState([
     {
@@ -146,6 +180,92 @@ export default function Home() {
       discount_perc: 10,
     },
   ]);
+  let [budgetStore, setBudgetStroe] = useState({
+    en: [
+      {
+        img: require("./../../assets/budgetStore/sports_en.jpg"),
+        path: "/sports",
+      },
+      {
+        img: require("./../../assets/budgetStore/kitchen_en.jpg"),
+        path: "/kitchen",
+      },
+      {
+        img: require("./../../assets/budgetStore/home_en.jpg"),
+        path: "/home",
+      },
+      {
+        img: require("./../../assets/budgetStore/healtchAndPersonalCare_en.jpg"),
+        path: "/healthAndPersonalCare",
+      },
+      {
+        img: require("./../../assets/budgetStore/grocery_en.jpg"),
+        path: "/grocery",
+      },
+      {
+        img: require("./../../assets/budgetStore/fashion_en.jpg"),
+        path: "/fashion",
+      },
+      {
+        img: require("./../../assets/budgetStore/electronics_en.jpg"),
+        path: "/electronics",
+      },
+      {
+        img: require("./../../assets/budgetStore/computers_en.jpg"),
+        path: "/computers",
+      },
+      {
+        img: require("./../../assets/budgetStore/beauty_en.jpg"),
+        path: "/beauty",
+      },
+      {
+        img: require("./../../assets/budgetStore/babyEssentials_en.jpg"),
+        path: "/babyEssential",
+      },
+    ],
+    ar: [
+      {
+        img: require("./../../assets/budgetStore/sports_ar.jpg"),
+        path: "/sports",
+      },
+      {
+        img: require("./../../assets/budgetStore/kitchen_ar.jpg"),
+        path: "/kitchen",
+      },
+      {
+        img: require("./../../assets/budgetStore/home_ar.jpg"),
+        path: "/home",
+      },
+      {
+        img: require("./../../assets/budgetStore/healtchAndPersonalCare_ar.jpg"),
+        path: "/healthAndPersonalCare",
+      },
+      {
+        img: require("./../../assets/budgetStore/grocery_ar.jpg"),
+        path: "/grocery",
+      },
+      {
+        img: require("./../../assets/budgetStore/fashion_ar.jpg"),
+        path: "/fashion",
+      },
+      {
+        img: require("./../../assets/budgetStore/electronics_ar.jpg"),
+        path: "/electronics",
+      },
+      {
+        img: require("./../../assets/budgetStore/computers_ar.jpg"),
+        path: "/computers",
+      },
+      {
+        img: require("./../../assets/budgetStore/beauty_ar.jpg"),
+        path: "/beauty",
+      },
+      {
+        img: require("./../../assets/budgetStore/babyEssentials_ar.jpg"),
+        path: "/babyEssential",
+      },
+    ],
+  });
   return (
     <>
       <div className="homeSection">
@@ -163,6 +283,18 @@ export default function Home() {
           </div>
           <div className="overflow-hidden section">
             <MidCart products={offersToday} />
+          </div>
+          <div className="overflow-hidden section">
+            <SmallCart
+              products={budgetStore}
+              title_en="ٍShop the budget store"
+              title_ar="ركن التوفير"
+            />
+          </div>
+          <div className="row overflow-hidden gx-5 section">
+            {products.slice(8, 12).map((prod, index) => (
+              <BigCart product={prod} key={index} />
+            ))}
           </div>
         </div>
       </div>
