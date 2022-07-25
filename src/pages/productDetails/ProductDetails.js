@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useHistory } from "react-router-dom";
-
+import LocalizedStrings from "react-localization";
 import addToCart_action from "./../../store/actions/cart";
 import "./productDetails.css";
 export default function ProductDetails() {
@@ -40,7 +40,6 @@ export default function ProductDetails() {
         { name: "Memory storage capacity", value: "128 GB" },
         { name: "Screen size", value: "6.43 Inches" },
         { name: "Front photo sensor resolution", value: "16 MP" },
-        { name: "Rear camera resolution", value: "108 MP" },
       ],
       seller: "Amazon.eg",
       shipsFrom: "Amazon.eg",
@@ -77,10 +76,34 @@ export default function ProductDetails() {
       shipsFrom: "Amazon.eg",
     },
   });
+  let pageData = new LocalizedStrings({
+    en: {
+      product: { ...product.en },
+      productCartExist: "Product is already exist!",
+      curreny: "EG",
+      quantity: "Quantity",
+      addToCart: "Add To Cart",
+      buyProduct: "Buy Now",
+      shipsFrom: "Ships From",
+      shipsBy: "Ships By",
+    },
+    ar: {
+      product: { ...product.ar },
+      productCartExist: "المنتج موجود في العربة بالفعل!",
+      curreny: "جنية",
+      quantity: "الكمية",
+      addToCart: "أضف الي العربة",
+      buyProduct: "اشتري المنتج الان",
+      shipsFrom: "يشحن من",
+      shipsBy: "يباع من",
+    },
+  });
   let [quantity, setQuantity] = useState(1);
   let [error, setError] = useState("");
+  let space = "  ";
   let dateNow = new Date();
   dateNow.setDate(dateNow.getDate() + 3);
+
   let handleMouseOver = (e) => {
     if (e.target.src) {
       activeImg.current.src = e.target.src;
@@ -104,7 +127,7 @@ export default function ProductDetails() {
       );
     } else {
       console.log("Exist");
-      setError("Product is already exist!");
+      setError(pageData.productCartExist);
       setTimeout(() => {
         setError("");
       }, 3000);
@@ -124,9 +147,14 @@ export default function ProductDetails() {
   function currencyFormat(num) {
     return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
+  pageData.setLanguage(lang);
   return (
     <>
-      <div className="details">
+      <div
+        className={`details ${
+          lang == "en" ? "productFont_en" : "productFont_ar"
+        }`}
+      >
         <div className="row" dir={lang == "en" ? "ltr" : "rtl"}>
           <div className="col-md-5">
             <div className="gallery d-flex">
@@ -134,17 +162,77 @@ export default function ProductDetails() {
                 className="gallery__slider d-flex flex-column align-items-center "
                 onMouseOver={(e) => handleMouseOver(e)}
               >
-                {product.en.imgs.map((img, index) => (
+                {pageData.product.imgs.map((img, index) => (
                   <img src={img} key={index} />
                 ))}
               </div>
               <div className="gallery__active d-flex justify-content-center align-items-center">
-                <img src={product.en.imgs[0]} ref={activeImg} />
+                <img src={pageData.product.imgs[0]} ref={activeImg} />
               </div>
             </div>
           </div>
           <div className="col-md-5">
-            {lang == "en" ? (
+            <div className="productInfo d-flex flex-column align-items-start">
+              <h3 className="productInfo__title">{pageData.product.title}</h3>
+              <p className="productInfo__brand">
+                Brand : {pageData.product.brand}
+              </p>
+              <div className="dash"></div>
+              {pageData.product.discount ? (
+                <div className="productInfo__price">
+                  <p className="productInfo__was">
+                    {lang == "en" ? "Was:" : "كان :"}{" "}
+                    <span>
+                      {currencyFormat(pageData.product.price)}
+                      {space}
+                      {pageData.curreny}
+                    </span>
+                  </p>
+                  <p className="productInfo__withDeal">
+                    {lang == "en" ? "With Deal:" : "مع العرض"}
+                    <span>
+                      {currencyFormat(
+                        pageData.product.price -
+                          pageData.product.price *
+                            (pageData.product.discount / 100)
+                      )}
+                      {space}
+                      {pageData.curreny}
+                    </span>
+                  </p>
+                  <p className="productInfo__save">
+                    {lang == "en" ? "You Save:" : "الخصم: "}
+                    <span>
+                      ({pageData.product.discount}%)
+                      {currencyFormat(
+                        pageData.product.price *
+                          (pageData.product.discount / 100)
+                      )}
+                      {space}
+                      {pageData.curreny}
+                    </span>
+                  </p>
+                </div>
+              ) : (
+                <p className="productInfo__withDeal">
+                  Price:
+                  <span>
+                    {pageData.curreny}
+                    {space}
+                    {currencyFormat(pageData.product.price)}
+                  </span>
+                </p>
+              )}
+              <div className="dash"></div>
+              <div className="productInfo__prop">
+                {pageData.product.properties.map((prop, index) => (
+                  <p className="productInfo__prop-box" key={index}>
+                    <span>{prop.name}</span>: {prop.value}
+                  </p>
+                ))}
+              </div>
+            </div>
+            {/* {lang == "en" ? (
               <div className="productInfo d-flex flex-column align-items-start">
                 <h3 className="productInfo__title">{product.en.title}</h3>
                 <p className="productInfo__brand">Brand : {product.en.brand}</p>
@@ -239,11 +327,62 @@ export default function ProductDetails() {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
           </div>
           <div className="col-md-2">
             <div className="processing">
-              {lang == "en" ? (
+              <>
+                <h5 className="processing__price">
+                  {pageData.product.discount
+                    ? currencyFormat(
+                        pageData.product.price -
+                          pageData.product.price *
+                            (pageData.product.discount / 100)
+                      )
+                    : currencyFormat(pageData.product.price)}
+                  {space}
+                  {pageData.curreny}
+                </h5>
+                <p className="proessing__delivery">
+                  {lang == "en" ? "Deliver" : "التوصيل:"}
+                  {space}
+                  <span>{dateNow.toDateString()}</span>
+                </p>
+                <div className="processing__quantityBox mb-5">
+                  <p className="m-0">{pageData.quantity}</p>
+                  <select className="mx-4" onChange={(e) => handleQuantity(e)}>
+                    {new Array(pageData.product.quantity)
+                      .fill(0)
+                      .map((num, index) => (
+                        <option value={index + 1} key={index}>
+                          {index + 1}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <div className="btns my-4 d-flex flex-column align-items-center justify-content-center ">
+                  <button
+                    className="w-100 customBtn secondaryBtn"
+                    onClick={() => handleAddToCart()}
+                  >
+                    {pageData.addToCart}
+                  </button>
+                  {error && <small className="small__Error">{error}</small>}
+                  <button
+                    className="w-100 customBtn primaryBtn"
+                    onClick={() => handleBuy()}
+                  >
+                    {pageData.buyProduct}
+                  </button>
+                </div>
+                <p className="processing__seller">
+                  {pageData.shipsFrom}: <span>{product.en.shipsFrom}</span>
+                </p>
+                <p className="processing__seller">
+                  {pageData.shipsBy}: <span>{product.en.seller}</span>
+                </p>
+              </>
+              {/* {lang == "en" ? (
                 <>
                   <h5 className="processing__price">
                     EG
@@ -293,7 +432,7 @@ export default function ProductDetails() {
                 </>
               ) : (
                 ""
-              )}
+              )} */}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-// import React from "react";
+import React from "react";
 import { useSelector } from "react-redux/es/exports";
 import LocalizedStrings from "react-localization";
 import "./purchase.css";
@@ -17,6 +17,15 @@ export default function Purchase() {
   let quantity = location.search.split("=")[1];
   let stripe = useStripe();
   let element = useElements();
+  // HANDLE: card value cahnge
+  let handleCardChange = (e) => {
+    if (!e.complete) {
+      setError(formStrings.cardError);
+    } else {
+      setError("");
+    }
+  };
+  // ---------------------------------------------
   // HANDLE: localization
   let formStrings = new LocalizedStrings({
     en: {
@@ -27,9 +36,9 @@ export default function Purchase() {
       email: "Email",
       buy: "Buy Now",
       nameLenError: "Name Too Short!",
-      nameRequiredError: "Name is Required",
+      nameRequiredError: "Name is Required!",
       addressLenError: "Address Is Too Short!",
-      addressRequiredError: "Address Is Too Short",
+      addressRequiredError: "Address Is Required!",
       phoneLenError: "Phone Should be 11 numbers!",
       phoneRequiredError: "Phone Is Too Short!",
       phoneTypeError: "Phone should be numbers only!",
@@ -38,6 +47,7 @@ export default function Purchase() {
       processing: "Processing..",
       failed: "Failed,Please try again",
       success: "Processing is done, congratulation!",
+      cardError: "You should enter card id!",
     },
     ar: {
       title: "عملية الشراء",
@@ -58,12 +68,12 @@ export default function Purchase() {
       processing: "جاري الشراء ..",
       failed: "فشلت العملية , برجاء المحاولة مره اخري",
       success: "انتهت عملية الشراء , تهانينا!",
+      cardError: "يجب عليك ادخال رقم الكارت!",
     },
   });
   formStrings.setLanguage(lang);
   // ---------------------------------------------
   // HANDLE: formik
-
   let validate = (values) => {
     const errors = {};
     if (!values.name) {
@@ -107,6 +117,7 @@ export default function Purchase() {
       console.log(formik);
       //1) Gathering data
       let cardElement = element.getElement("card");
+      // console.log(cardElement);
       let { name, address, phone, email } = values;
       let billing_info = {
         name,
@@ -245,6 +256,7 @@ export default function Purchase() {
             </div>
             <div className="my-5 w-75 border border-warning p-3">
               <CardElement
+                onChange={(e) => handleCardChange(e)}
                 options={{
                   hidePostalCode: true,
                   style: {
@@ -268,7 +280,10 @@ export default function Purchase() {
                 {formStrings.buy}
               </button>
               {paymentState && (
-                <div class="alert alert-primary fs-5 w-75 mt-3" role="alert">
+                <div
+                  className="alert alert-primary fs-5 w-75 mt-3"
+                  role="alert"
+                >
                   {paymentState}
                 </div>
               )}

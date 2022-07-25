@@ -91,11 +91,11 @@
   font-family: "Almarai";
 }
 .productFont_en {
-  font-family: "Open Sanss";
+  font-family: "Open Sans";
 }
 /*------------------------------------------- styling procceing (rigth)  */
 .processing {
-  padding: 1rem;
+  padding: 3rem;
   border: 0.1rem dashed var(--mainColor);
   margin-top: 10rem;
   font-size: 1.6rem;
